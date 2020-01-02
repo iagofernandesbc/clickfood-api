@@ -12,15 +12,15 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-public class FormaPagamento {
+public class Estado {
 	
 	@EqualsAndHashCode.Include
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_forma_pagamento")
+	@Column(name = "id_estado")
 	private Long id;
 	
-	@Column(name = "nm_forma_pagamento", length = 60, nullable = false)
+	@Column(name = "nm_estado", length = 60, nullable = false)
 	private String nome;
 
 }

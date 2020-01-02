@@ -20,7 +20,7 @@ public class Cozinha {
 	@Column(name = "id_cozinha")
 	private Long id;
 
-	@Column(name = "nm_cozinha")
+	@Column(name = "nm_cozinha", length = 60, nullable = false)
 	private String nome;
 
 }

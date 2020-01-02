@@ -20,7 +20,10 @@ public class Permissao {
 	@Column(name = "id_permissao")
 	private Long id;
 	
-	@Column(name = "ds_permissao")
+	@Column(name = "nm_permissao", length = 60, nullable = false)
+	private String nome;
+	
+	@Column(name = "ds_permissao", length = 150)
 	private String descricao;
 	
 }
