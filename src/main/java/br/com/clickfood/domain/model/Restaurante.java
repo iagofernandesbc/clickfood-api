@@ -25,14 +25,14 @@ public class Restaurante {
 	@Column(name = "id_restaurante")
 	private Long id;
 
-	@ManyToOne
-	@JoinColumn(name = "id_cozinha", nullable = false, foreignKey = @ForeignKey(name = "FK_COZINHA"))
-	private Cozinha cozinha;
-
 	@Column(name = "nm_restaurante", length = 60, nullable = false)
 	private String nome;
 
 	@Column(name = "vl_taxa_frete")
 	private BigDecimal taxaFrete;
+	
+	@ManyToOne
+	@JoinColumn(name = "id_cozinha", nullable = false, foreignKey = @ForeignKey(name = "FK_COZINHA"))
+	private Cozinha cozinha;
 
 }
