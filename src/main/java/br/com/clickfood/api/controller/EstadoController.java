@@ -1,6 +1,7 @@
 package br.com.clickfood.api.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,15 +35,15 @@ public class EstadoController {
 
 	@GetMapping
 	public List<Estado> listar() {
-		return estadoRepository.listar();
+		return estadoRepository.findAll();
 	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Estado> buscar(@PathVariable Long id) {
-		Estado estado = estadoRepository.buscar(id);
+		Optional<Estado> estado = estadoRepository.findById(id);
 
-		if (estado != null) {
-			return ResponseEntity.status(HttpStatus.OK).body(estado);
+		if (estado.isPresent()) {
+			return ResponseEntity.status(HttpStatus.OK).body(estado.get());
 		}
 
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -56,12 +57,12 @@ public class EstadoController {
 
 	@PutMapping("/{id}")
 	public ResponseEntity<Estado> atualizar(@PathVariable Long id, @RequestBody Estado estado) {
-		Estado estadoAtual = estadoRepository.buscar(id);
+		Optional<Estado> estadoAtual = estadoRepository.findById(id);
 
-		if (estadoAtual != null) {
-			BeanUtils.copyProperties(estado, estadoAtual, "id");
-			estadoAtual = estadoService.salvar(estadoAtual);
-			return ResponseEntity.status(HttpStatus.OK).body(estadoAtual);
+		if (estadoAtual.isPresent()) {
+			BeanUtils.copyProperties(estado, estadoAtual.get(), "id");
+			Estado estadoSalvo = estadoService.salvar(estadoAtual.get());
+			return ResponseEntity.status(HttpStatus.OK).body(estadoSalvo);
 		}
 
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

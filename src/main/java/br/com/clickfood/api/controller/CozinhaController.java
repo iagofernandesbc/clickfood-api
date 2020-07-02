@@ -1,6 +1,7 @@
 package br.com.clickfood.api.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,17 +35,17 @@ public class CozinhaController {
 
 	@GetMapping
 	public List<Cozinha> listar() {
-		return cozinhaRepository.listar();
+		return cozinhaRepository.findAll();
 	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Cozinha> buscar(@PathVariable Long id) {
-		Cozinha cozinha = cozinhaRepository.buscar(id);
-		
-		if (cozinha != null) {
-			return ResponseEntity.status(HttpStatus.OK).body(cozinha);	
+		Optional<Cozinha> cozinha = cozinhaRepository.findById(id);
+
+		if (cozinha.isPresent()) {
+			return ResponseEntity.status(HttpStatus.OK).body(cozinha.get());
 		}
-		
+
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 
@@ -56,21 +57,21 @@ public class CozinhaController {
 
 	@PutMapping("/{id}")
 	public ResponseEntity<Cozinha> atualizar(@PathVariable Long id, @RequestBody Cozinha cozinha) {
-		Cozinha cozinhaAtual = cozinhaRepository.buscar(id);
-		
-		if (cozinhaAtual != null) {
-			BeanUtils.copyProperties(cozinha, cozinhaAtual, "id");
-			cozinhaAtual = cozinhaService.salvar(cozinhaAtual);
-			return ResponseEntity.status(HttpStatus.OK).body(cozinhaAtual);
+		Optional<Cozinha> cozinhaAtual = cozinhaRepository.findById(id);
+
+		if (cozinhaAtual.isPresent()) {
+			BeanUtils.copyProperties(cozinha, cozinhaAtual.get(), "id");
+			Cozinha cozinhaSalva = cozinhaService.salvar(cozinhaAtual.get());
+			return ResponseEntity.status(HttpStatus.OK).body(cozinhaSalva);
 		}
-		
+
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Cozinha> remover(@PathVariable Long id) {
 		try {
-			cozinhaRepository.remover(id);
+			cozinhaService.remover(id);
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 
 		} catch (EntidadeNaoEncontradaException e) {

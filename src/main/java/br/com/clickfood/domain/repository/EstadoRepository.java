@@ -1,17 +1,9 @@
 package br.com.clickfood.domain.repository;
 
-import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import br.com.clickfood.domain.model.Estado;
 
-public interface EstadoRepository {
-	
-	List<Estado> listar();
+public interface EstadoRepository extends JpaRepository<Estado, Long> {
 
-	Estado buscar(Long id);
-
-	Estado salvar(Estado estado);
-
-	void remover(Long id);
-	
 }
