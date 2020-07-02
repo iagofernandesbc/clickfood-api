@@ -75,7 +75,7 @@ public class CidadeController {
 		} catch (EntidadeNaoEncontradaException e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
-	}
+	} 
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Cidade> remover(@PathVariable Long id) {
